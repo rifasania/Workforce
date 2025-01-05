@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Landing from '../pages/landing/Landing.vue';
 import UpahMinimum from '../pages/upah_minimum/UpahMinimum.vue';
 import PengangguranTerbuka from '../pages/pengangguran_terbuka/PengangguranTerbuka.vue';
+import JobSeeker from '../pages/job_seeker/JobSeeker.vue';
 
 const routes = [
     {
@@ -18,6 +19,11 @@ const routes = [
         path: '/pengangguran-terbuka',
         name: 'PengangguranTerbuka',
         component: PengangguranTerbuka,
+    },
+    {
+        path: '/registered-job-seeker',
+        name: 'PencariKerjaTerdaftar',
+        component: JobSeeker,
     },
 ];
 

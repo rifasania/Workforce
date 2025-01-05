@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors'); // Import CORS
 const connectDB = require('./config/db');
 const upahRoutes = require('./routes/upahRoutes');
+const jobseekerRoutes = require('./routes/jobseekerRoutes')
 const errorHandler = require('./middlewares/errorHandler');
 const morgan = require('morgan');
 
@@ -30,6 +31,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Routes
 app.use('/api/upah', upahRoutes);
+app.use('/api/jobseeker', jobseekerRoutes);
 
 // Middleware Error Handling
 app.use(errorHandler);
