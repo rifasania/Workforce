@@ -2,8 +2,6 @@
 import Navbar from "../../components/Navbar.vue";
 import Footer from "../../components/Footer.vue";
 import axios from 'axios';
-import pengangguranTerbuka from "../../../../backend/models/pengangguranTerbuka";
-
 
 export default {
   name: "PengangguranTerbuka`",

@@ -3,11 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors'); // Import CORS
 const connectDB = require('./config/db');
 const upahRoutes = require('./routes/upahRoutes');
-<<<<<<< HEAD
 const PengangguranRouters = require('./routes/PengangguranRoutes');
-=======
 const jobseekerRoutes = require('./routes/jobseekerRoutes')
->>>>>>> 3ac28682a879c2f635da04308df74a6e35f5a3c7
 const errorHandler = require('./middlewares/errorHandler');
 const morgan = require('morgan');
 
@@ -35,11 +32,8 @@ if (process.env.NODE_ENV === 'development') {
 
 // Routes
 app.use('/api/upah', upahRoutes);
-<<<<<<< HEAD
 app.use('/api/pengangguran', PengangguranRouters);
-=======
 app.use('/api/jobseeker', jobseekerRoutes);
->>>>>>> 3ac28682a879c2f635da04308df74a6e35f5a3c7
 
 // Middleware Error Handling
 app.use(errorHandler);
