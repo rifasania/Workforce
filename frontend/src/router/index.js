@@ -4,8 +4,11 @@ import Landing from '../pages/landing/Landing.vue';
 import UpahMinimum from '../pages/upah_minimum/UpahMinimum.vue';
 import PengangguranTerbuka from '../pages/pengangguran_terbuka/PengangguranTerbuka.vue';
 import JobSeeker from '../pages/job_seeker/JobSeeker.vue';
+import jumLoker from '../pages/jumlah_loker/JumLoker.vue';
 import EditUpah from '../pages/upah_minimum/FormEditUpah.vue'
 import AddUpah from '../pages/upah_minimum/FormAddUpah.vue'
+import EditLoker from '../pages/jumlah_loker/FormEditLoker.vue'
+import AddLoker from '../pages/jumlah_loker/FormAddLoker.vue'
 
 const routes = [
     {
@@ -34,6 +37,11 @@ const routes = [
         component: JobSeeker,
     },
     {
+        path: '/jum-loker',
+        name: 'JumlahLowonganKerja',
+        component: jumLoker,
+    },
+    {
         path: '/edit-upah/:id',
         name: 'EditUpah',
         component: EditUpah,
@@ -42,6 +50,16 @@ const routes = [
         path: '/add-upah',
         name: 'AddUpah',
         component: AddUpah,
+    },
+    {
+        path: '/edit-loker/:id',
+        name: 'EditLoker',
+        component: EditLoker,
+    },
+    {
+        path: '/add-loker',
+        name: 'AddLoker',
+        component: AddLoker,
     },
 ];
 

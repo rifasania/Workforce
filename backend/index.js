@@ -4,6 +4,7 @@ const cors = require('cors'); // Import CORS
 const connectDB = require('./config/db');
 const upahRoutes = require('./routes/upahRoutes');
 const PengangguranRouters = require('./routes/PengangguranRoutes');
+const lokerRoutes = require('./routes/lokerRoutes');
 const jobseekerRoutes = require('./routes/jobseekerRoutes')
 const errorHandler = require('./middlewares/errorHandler');
 const morgan = require('morgan');
@@ -34,6 +35,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/upah', upahRoutes);
 app.use('/api/pengangguran', PengangguranRouters);
 app.use('/api/jobseeker', jobseekerRoutes);
+app.use('/api/loker', lokerRoutes);
 
 // Middleware Error Handling
 app.use(errorHandler);
