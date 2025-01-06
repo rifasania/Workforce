@@ -37,7 +37,7 @@
                                 <router-link to="/pengangguran-terbuka" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Pengangguran Terbuka</router-link>
                             </li>  
                             <li>
-                                <router-link to="/" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Jumlah Pencari Kerja Terdaftar</router-link>
+                                <router-link to="/registered-job-seeker" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Jumlah Pencari Kerja Terdaftar</router-link>
                             </li>                                                  
                         </ul>
                     </li>
