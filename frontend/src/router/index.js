@@ -9,6 +9,8 @@ import EditUpah from '../pages/upah_minimum/FormEditUpah.vue'
 import AddUpah from '../pages/upah_minimum/FormAddUpah.vue'
 import EditLoker from '../pages/jumlah_loker/FormEditLoker.vue'
 import AddLoker from '../pages/jumlah_loker/FormAddLoker.vue'
+import AddJobSeeker from '../pages/job_seeker/FormAddJobseeker.vue';
+import EditJobseeker from '../pages/job_seeker/FormEditJobseeker.vue';
 
 const routes = [
     {
@@ -60,6 +62,16 @@ const routes = [
         path: '/add-loker',
         name: 'AddLoker',
         component: AddLoker,
+    },
+    {
+        path: '/edit-jobseeker/:id',
+        name: 'EditJobseeker',
+        component: EditJobseeker,
+    },
+    {
+        path: '/add-jobseeker',
+        name: 'AddJobSeeker',
+        component: AddJobSeeker,
     },
 ];
 
