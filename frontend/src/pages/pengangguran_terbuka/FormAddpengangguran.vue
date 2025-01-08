@@ -61,7 +61,7 @@ export default {
     <Navbar />
     <section class="bg-white dark:bg-gray-900">
       <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
-        <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Tambah Data Upah Minimum</h2>
+        <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Tambah Data Pengangguran Terbuka</h2>
 
         <div v-if="error" class="mb-4 text-sm text-red-500">{{ error }}</div>
         <div v-if="successMessage" class="mb-4 text-sm text-green-500">{{ successMessage }}</div>
