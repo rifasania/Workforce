@@ -17,6 +17,10 @@ import StatsUpah from "../pages/dashboard/statsUpah.vue";
 import StatsLoker from "../pages/dashboard/statsLoker.vue";
 import StatsJobSeeker from "../pages/dashboard/statsJobSeeker.vue";
 import StatsPengangguran from "../pages/dashboard/statsPengangguran.vue";
+import ChartJobSeeker from "../pages/dashboard/Chart-JobSeeker.vue";
+import ChartUpah from "../pages/dashboard/Chart-Upah.vue";
+import ChartLoker from "../pages/dashboard/Chart-Loker.vue";
+import ChartPengangguran from "../pages/dashboard/Chart-Pengangguran.vue";
 
 const routes = [
   {
@@ -93,6 +97,26 @@ const routes = [
     path: "/stats-upah",
     name: "StatsUpah",
     component: StatsUpah,
+  },
+  {
+    path: '/chart-registered-jobseeker',
+    name: 'ChartJobSeeker',
+    component: ChartJobSeeker,
+  },
+  {
+      path: '/chart-upah-minimum',
+      name: 'ChartUpah',
+      component: ChartUpah,
+  },
+  {
+      path: '/chart-loker',
+      name: 'ChartLoker',
+      component: ChartLoker,
+  },
+  {
+      path: '/chart-pengangguran-terbuka',
+      name: 'ChartPengangguranTerbuka',
+      component: ChartPengangguran,
   },
   {
     path: "/stats-loker",
