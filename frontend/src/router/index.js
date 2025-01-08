@@ -13,6 +13,7 @@ import EditLoker from "../pages/jumlah_loker/FormEditLoker.vue";
 import AddLoker from "../pages/jumlah_loker/FormAddLoker.vue";
 import AddJobSeeker from "../pages/job_seeker/FormAddJobseeker.vue";
 import EditJobseeker from "../pages/job_seeker/FormEditJobseeker.vue";
+import StatsUpah from "../pages/dashboard/statsUpah.vue";
 
 const routes = [
   {
@@ -84,6 +85,11 @@ const routes = [
     path: "/add-jobseeker",
     name: "AddJobSeeker",
     component: AddJobSeeker,
+  },
+  {
+    path: "/stats-upah",
+    name: "StatsUpah",
+    component: StatsUpah,
   },
 ];
 

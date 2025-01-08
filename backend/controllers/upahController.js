@@ -77,10 +77,50 @@ const deleteUpah = async (req, res) => {
     }
 };
 
+// AGGREGATE
+const getAggregatedData = async (req, res) => {
+    try {
+        const result = await UpahMinimum.aggregate([
+            {
+                $addFields: {
+                    besaran_upah_minimum: {
+                        $toDouble: {
+                            $replaceAll: {
+                                input: { $toString: "$besaran_upah_minimum" }, // Mengubah angka menjadi string
+                                find: ",",
+                                replacement: "."
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: "$tahun",
+                    totalUpahMinimum: { $sum: "$besaran_upah_minimum" },
+                    rataRataUpahMinimum: { $avg: "$besaran_upah_minimum" },
+                    tertinggi: { $max: "$besaran_upah_minimum" },
+                    terendah: { $min: "$besaran_upah_minimum" },
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+
+        res.status(200).json(result);
+    } catch (err) {
+        console.error("Error in getAggregatedData:", err.message); // Log error
+        res.status(500).json({ message: `Error fetching data: ${err.message}` }); // Kirim error detail ke client
+    }
+};
+
+
+
+
 module.exports = {
     getAllUpah,
     getUpahById,
     createUpah,
     updateUpah,
     deleteUpah,
+    getAggregatedData,
 };
