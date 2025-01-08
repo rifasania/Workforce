@@ -20,9 +20,9 @@ const validateLoker = (req, res, next) => {
     }
 
     // Pastikan jumlah lowongan kerja valid (opsional)
-    if (isNaN(parseFloat(jumlah_lowongan_kerja.replace(',', '')))) {
-        return res.status(400).json({ message: 'Jumlah lowongan kerja tidak valid' });
-    }
+    // if (isNaN(parseFloat(jumlah_lowongan_kerja.replace(',', '')))) {
+    //     return res.status(400).json({ message: 'Jumlah lowongan kerja tidak valid' });
+    // }
 
     next(); // Lanjut ke controller
 };

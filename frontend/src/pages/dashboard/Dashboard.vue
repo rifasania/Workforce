@@ -1,14 +1,13 @@
 <script>
-// 
 import NavbarDashboard from "../../components/NavbarDashboard.vue";
-import SideNavDashboard from "../../components/SideNavDashboard.vue";
+import Footer from "../../components/Footer.vue";
   
   
   export default {
     name: "Dashboard",
     components: {
       NavbarDashboard,
-      SideNavDashboard,
+      Footer,
       
     },    
   };
@@ -16,13 +15,12 @@ import SideNavDashboard from "../../components/SideNavDashboard.vue";
 
 <template>
     <div id="dashboard" class="flex">
-      <NavbarDashboard/>
-      
-      <SideNavDashboard/>
+      <NavbarDashboard/>   
 
       
       
       
     </div>
+    <Footer/>
   </template>
   

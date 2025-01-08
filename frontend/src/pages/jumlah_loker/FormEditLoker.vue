@@ -1,5 +1,5 @@
 <script>
-import Navbar from "../../components/Navbar.vue";
+import NavbarDashboard from "../../components/NavbarDashboard.vue";
 import Footer from "../../components/Footer.vue";
 import axios from 'axios';
 
@@ -44,14 +44,14 @@ export default {
     },
   },
   components: {
-    Navbar,
+    NavbarDashboard,
     Footer,
   },
 };
 </script>
 
 <template>
-  <Navbar />
+  <NavbarDashboard />
   <div v-if="isLoading" class="text-center p-8">Memuat detail produk...</div>
   <div v-else-if="error" class="text-center p-8 text-red-500">{{ error }}</div>
   <div v-else>
@@ -91,8 +91,8 @@ export default {
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >Jumlah Lowongan Kerja</label>
               <input
-                type="text"
-                id="jum_loker"
+                type="number"
+                id="jumlah_lowongan_kerja"
                 v-model="jumlahloker.jumlah_lowongan_kerja"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 required

@@ -16,12 +16,12 @@ import EditJobseeker from "../pages/job_seeker/FormEditJobseeker.vue";
 
 const routes = [
   {
-    path: "/dashboard",
+    path: "/",
     name: "Dashboard",
     component: Dashboard,
   },
   {
-    path: "/",
+    path: "/landing-page",
     name: "Landing",
     component: Landing,
   },

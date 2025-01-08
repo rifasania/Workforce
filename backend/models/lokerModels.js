@@ -8,8 +8,7 @@ const lokerSchema = new mongoose.Schema({
     jumlah_lowongan_kerja: { type: Number, required: true },
     satuan: { type: String, required: true },
     tahun: { type: Number, required: true },
-}, {
-    timestamps: true, // Otomatis menambahkan createdAt dan updatedAt
+}, {    
     collection: 'jum_loker'
 });
 

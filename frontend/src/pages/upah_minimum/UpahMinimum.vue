@@ -10,7 +10,7 @@ export default {
       upahminimum: [],
       filteredUpah: [],
       searchTerm: "",
-      limit: 10, // Default limit
+      limit: "ALL", // Default limit
       currentPage: 1,
       totalPages: 1,
     };
