@@ -8,8 +8,7 @@ const jobSeekerSchema = new mongoose.Schema({
     jumlah_pencari_kerja: { type: Number, required: true },
     satuan: { type: String, required: true },
     tahun: { type: Number, required: true },
-}, {
-    timestamps: true, // Otomatis menambahkan createdAt dan updatedAt
+}, {    
     collection: 'job_seeker'
 });
 

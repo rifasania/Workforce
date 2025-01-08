@@ -16,6 +16,35 @@ export default {
       },
       isLoading: true, // Indikator loading
       error: null, // Menyimpan pesan error jika ada
+      kabupatenKotaList: [
+        { nama: "KABUPATEN BANDUNG", kode: "3204" },
+        { nama: "KABUPATEN BANDUNG BARAT", kode: "3217" },
+        { nama: "KABUPATEN BEKASI", kode: "3216" },
+        { nama: "KABUPATEN BOGOR", kode: "3201" },
+        { nama: "KABUPATEN CIAMIS", kode: "3207" },
+        { nama: "KABUPATEN CIANJUR", kode: "3203" },
+        { nama: "KABUPATEN CIREBON", kode: "3209" },
+        { nama: "KABUPATEN GARUT", kode: "3205" },
+        { nama: "KABUPATEN INDRAMAYU", kode: "3212" },
+        { nama: "KABUPATEN KARAWANG", kode: "3215" },
+        { nama: "KABUPATEN KUNINGAN", kode: "3208" },
+        { nama: "KABUPATEN MAJALENGKA", kode: "3210" },
+        { nama: "KABUPATEN PANGANDARAN", kode: "3218" },
+        { nama: "KABUPATEN PURWAKARTA", kode: "3214" },
+        { nama: "KABUPATEN SUBANG", kode: "3213" },
+        { nama: "KABUPATEN SUKABUMI", kode: "3202" },
+        { nama: "KABUPATEN SUMEDANG", kode: "3211" },
+        { nama: "KABUPATEN TASIKMALAYA", kode: "3206" },
+        { nama: "KOTA BANDUNG", kode: "3273" },
+        { nama: "KOTA BANJAR", kode: "3279" },
+        { nama: "KOTA BEKASI", kode: "3275" },
+        { nama: "KOTA BOGOR", kode: "3271" },
+        { nama: "KOTA CIMAHI", kode: "3277" },
+        { nama: "KOTA CIREBON", kode: "3274" },
+        { nama: "KOTA DEPOK", kode: "3276" },
+        { nama: "KOTA SUKABUMI", kode: "3272" },
+        { nama: "KOTA TASIKMALAYA", kode: "3278" },
+      ],
     };
   },
   async mounted() {
@@ -41,6 +70,12 @@ export default {
         console.error("Error updating pengangguran:", error);
         alert("Gagal memperbarui data.");
       }
+    },
+    updateKodeKabupatenKota() {
+      const selected = this.kabupatenKotaList.find(
+        (item) => item.nama === this.pengangguranterbuka.nama_kabupaten_kota
+      );
+      this.pengangguranterbuka.kode_kabupaten_kota = selected ? selected.kode : "";
     },
   },
   components: {
@@ -68,23 +103,42 @@ export default {
               <label for="nama_provinsi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Provinsi</label>
               <input type="text" id="nama_provinsi" v-model="pengangguranterbuka.nama_provinsi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required disabled/>
             </div>
+
+            <!-- KODE KABUPATEN/KOTA -->
             <div class="w-full">
-              <label for="kode_kabupaten_kota" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode Kabupaten/Kota</label>
-              <input type="text" id="kode_kabupaten_kota" v-model="pengangguranterbuka.kode_kabupaten_kota" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required/>
+              <label
+                for="kode_kabupaten_kota"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Kode Kabupaten/Kota</label>
+              <input
+                type="text"
+                id="kode_kabupaten_kota"
+                v-model="pengangguranterbuka.kode_kabupaten_kota"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                disabled
+              />
             </div>
+
+            <!-- NAMA KABUPATEN/KOTA -->
             <div class="w-full">
               <label
                 for="nama_kabupaten_kota"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >Nama Kabupaten/Kota</label>
-              <input
-                type="text"
+              <select
                 id="nama_kabupaten_kota"
                 v-model="pengangguranterbuka.nama_kabupaten_kota"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                required
-              />
+                @change="updateKodeKabupatenKota"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              >
+                <option disabled value="">Pilih Kabupaten/Kota</option>
+                <option v-for="item in kabupatenKotaList" :key="item.kode" :value="item.nama">
+                  {{ item.nama }}
+                </option>
+              </select>
             </div>
+
+
             <div class="sm:col-span-2">
               <label
                 for="pengangguran_terbuka"
@@ -108,7 +162,7 @@ export default {
                 id="satuan"
                 v-model="pengangguranterbuka.satuan"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                required
+                required disabled
               />
             </div>
             <div class="sm:col-span-2">
