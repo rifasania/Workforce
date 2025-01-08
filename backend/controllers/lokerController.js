@@ -77,10 +77,107 @@ const deleteLoker = async (req, res) => {
     }
 };
 
+// 1. Total Lowongan Kerja per Tahun
+const getTotalLowonganPerTahun = async (req, res) => {
+    try {
+      const result = await LowonganKerja.aggregate([
+        {
+          $group: {
+            _id: "$tahun",
+            totalLowongan: { $sum: "$jumlah_lowongan_kerja" }
+          }
+        },
+        { $sort: { _id: 1 } }
+      ]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error("Error fetching total lowongan per tahun:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  // 2. Rata-Rata Lowongan Kerja per Kabupaten/Kota per Tahun
+  const getRataRataLowonganPerTahun = async (req, res) => {
+    try {
+      const result = await LowonganKerja.aggregate([
+        {
+          $group: {
+            _id: { tahun: "$tahun", nama_kabupaten_kota: "$nama_kabupaten_kota" },
+            rataRataLowongan: { $avg: "$jumlah_lowongan_kerja" }
+          }
+        },
+        {
+          $group: {
+            _id: "$_id.tahun",
+            rataRataTahun: { $avg: "$rataRataLowongan" }
+          }
+        },
+        { $sort: { _id: 1 } }
+      ]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error("Error fetching rata-rata lowongan per tahun:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  // 3. Kabupaten/Kota dengan Lowongan Terbanyak dan Terkecil per Tahun
+  const getTertinggiTerendahLowonganPerTahun = async (req, res) => {
+    try {
+      const result = await LowonganKerja.aggregate([
+        {
+          $group: {
+            _id: "$tahun",
+            tertinggi: { $max: "$jumlah_lowongan_kerja" },
+            terendah: { $min: "$jumlah_lowongan_kerja" },
+            tertinggiData: {
+              $push: {
+                $cond: [
+                  { $eq: ["$jumlah_lowongan_kerja", { $max: "$jumlah_lowongan_kerja" }] },
+                  { nama_kabupaten_kota: "$nama_kabupaten_kota", jumlah: "$jumlah_lowongan_kerja" },
+                  null
+                ]
+              }
+            },
+            terendahData: {
+              $push: {
+                $cond: [
+                  { $eq: ["$jumlah_lowongan_kerja", { $min: "$jumlah_lowongan_kerja" }] },
+                  { nama_kabupaten_kota: "$nama_kabupaten_kota", jumlah: "$jumlah_lowongan_kerja" },
+                  null
+                ]
+              }
+            }
+          }
+        },
+        {
+          $project: {
+            tertinggi: 1,
+            terendah: 1,
+            tertinggiData: { $arrayElemAt: ["$tertinggiData", 0] },
+            terendahData: { $arrayElemAt: ["$terendahData", 0] }
+          }
+        },
+        { $sort: { _id: 1 } }
+      ]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error("Error fetching tertinggi dan terendah lowongan per tahun:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }; 
+  
+
 module.exports = {
     getAllLoker,
     getLokerById,
     createLoker,
     updateLoker,
     deleteLoker,
+    getTotalLowonganPerTahun,
+    getRataRataLowonganPerTahun,
+    getTertinggiTerendahLowonganPerTahun,
 };

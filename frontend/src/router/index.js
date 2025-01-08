@@ -14,6 +14,9 @@ import AddLoker from "../pages/jumlah_loker/FormAddLoker.vue";
 import AddJobSeeker from "../pages/job_seeker/FormAddJobseeker.vue";
 import EditJobseeker from "../pages/job_seeker/FormEditJobseeker.vue";
 import StatsUpah from "../pages/dashboard/statsUpah.vue";
+import StatsLoker from "../pages/dashboard/statsLoker.vue";
+import StatsJobSeeker from "../pages/dashboard/statsJobSeeker.vue";
+import StatsPengangguran from "../pages/dashboard/statsPengangguran.vue";
 
 const routes = [
   {
@@ -90,6 +93,21 @@ const routes = [
     path: "/stats-upah",
     name: "StatsUpah",
     component: StatsUpah,
+  },
+  {
+    path: "/stats-loker",
+    name: "StatsLoker",
+    component: StatsLoker,
+  },
+  {
+    path: "/stats-jobseeker",
+    name: "StatsJobSeeker",
+    component: StatsJobSeeker,
+  },
+  {
+    path: "/stats-pengangguran",
+    name: "StatsPengangguran",
+    component: StatsPengangguran,
   },
 ];
 

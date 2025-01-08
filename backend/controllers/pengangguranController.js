@@ -77,10 +77,154 @@ const deletePengangguran = async (req, res) => {
     }
 };
 
+// 1. Total Tingkat Pengangguran Terbuka per Tahun
+const getTotalPengangguranTerbukaPerTahun = async (req, res) => {
+    try {
+      const result = await PengangguranTerbuka.aggregate([
+        {
+          $group: {
+            _id: "$tahun",
+            totalPengangguranTerbuka: { $sum: { $toDouble: {
+                $replaceAll: {
+                    input: { $toString: "$tingkat_pengangguran_terbuka" }, // Mengubah angka menjadi string
+                    find: ",",
+                    replacement: "."
+                }
+            } } }
+          }
+        },
+        { $sort: { _id: 1 } }
+      ]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error("Error fetching total tingkat pengangguran terbuka per tahun:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  // 2. Rata-Rata Tingkat Pengangguran Terbuka per Kabupaten/Kota per Tahun
+  const getRataRataPengangguranTerbukaPerTahun = async (req, res) => {
+    try {
+      const result = await PengangguranTerbuka.aggregate([
+        {
+          $group: {
+            _id: { tahun: "$tahun", nama_kabupaten_kota: "$nama_kabupaten_kota" },
+            rataRataPengangguran: { $avg: { $toDouble: {
+                $replaceAll: {
+                    input: { $toString: "$tingkat_pengangguran_terbuka" }, // Mengubah angka menjadi string
+                    find: ",",
+                    replacement: "."
+                }
+            } } }
+          }
+        },
+        {
+          $group: {
+            _id: "$_id.tahun",
+            rataRataTahun: { $avg: "$rataRataPengangguran" }
+          }
+        },
+        { $sort: { _id: 1 } }
+      ]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error("Error fetching rata-rata tingkat pengangguran terbuka per tahun:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  // 3. Kabupaten/Kota dengan Tingkat Pengangguran Terbuka Tertinggi dan Terendah per Tahun
+  const getTertinggiTerendahPengangguranTerbukaPerTahun = async (req, res) => {
+    try {
+      const result = await PengangguranTerbuka.aggregate([
+        {
+          $group: {
+            _id: "$tahun",
+            tertinggi: { $max: { $toDouble: {
+                $replaceAll: {
+                    input: { $toString: "$tingkat_pengangguran_terbuka" }, // Mengubah angka menjadi string
+                    find: ",",
+                    replacement: "."
+                }
+            } } },
+            terendah: { $min: { $toDouble: {
+                $replaceAll: {
+                    input: { $toString: "$tingkat_pengangguran_terbuka" }, // Mengubah angka menjadi string
+                    find: ",",
+                    replacement: "."
+                }
+            } } },
+            tertinggiData: {
+              $push: {
+                $cond: [
+                  { $eq: [{ $toDouble: {
+                $replaceAll: {
+                    input: { $toString: "$tingkat_pengangguran_terbuka" }, // Mengubah angka menjadi string
+                    find: ",",
+                    replacement: "."
+                }
+            } }, { $max: { $toDouble: {
+                $replaceAll: {
+                    input: { $toString: "$tingkat_pengangguran_terbuka" }, // Mengubah angka menjadi string
+                    find: ",",
+                    replacement: "."
+                }
+            } } }] },
+                  { nama_kabupaten_kota: "$nama_kabupaten_kota", tingkat: "$tingkat_pengangguran_terbuka" },
+                  null
+                ]
+              }
+            },
+            terendahData: {
+              $push: {
+                $cond: [
+                  { $eq: [{ $toDouble: {
+                $replaceAll: {
+                    input: { $toString: "$tingkat_pengangguran_terbuka" }, // Mengubah angka menjadi string
+                    find: ",",
+                    replacement: "."
+                }
+            } }, { $min: { $toDouble: {
+                $replaceAll: {
+                    input: { $toString: "$tingkat_pengangguran_terbuka" }, // Mengubah angka menjadi string
+                    find: ",",
+                    replacement: "."
+                }
+            } } }] },
+                  { nama_kabupaten_kota: "$nama_kabupaten_kota", tingkat: "$tingkat_pengangguran_terbuka" },
+                  null
+                ]
+              }
+            }
+          }
+        },
+        {
+          $project: {
+            tertinggi: 1,
+            terendah: 1,
+            tertinggiData: { $arrayElemAt: ["$tertinggiData", 0] },
+            terendahData: { $arrayElemAt: ["$terendahData", 0] }
+          }
+        },
+        { $sort: { _id: 1 } }
+      ]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error("Error fetching tertinggi dan terendah tingkat pengangguran terbuka per tahun:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+
 module.exports = {
     getAllPengangguran,
     getPengangguranById,
     createPengangguran,
     updatePengangguran,
     deletePengangguran,
+    getTotalPengangguranTerbukaPerTahun,
+    getRataRataPengangguranTerbukaPerTahun,
+    getTertinggiTerendahPengangguranTerbukaPerTahun,
 };

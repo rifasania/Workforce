@@ -77,10 +77,106 @@ const deleteJobSeeker = async (req, res) => {
     }
 };
 
+// 1. Total Pencari Kerja per Tahun
+const getTotalPencariKerjaPerTahun = async (req, res) => {
+    try {
+      const result = await jobseeker.aggregate([
+        {
+          $group: {
+            _id: "$tahun",
+            totalPencariKerja: { $sum: "$jumlah_pencari_kerja" }
+          }
+        },
+        { $sort: { _id: 1 } }
+      ]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error("Error fetching total pencari kerja per tahun:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  // 2. Rata-Rata Pencari Kerja per Kabupaten/Kota per Tahun
+  const getRataRataPencariKerjaPerTahun = async (req, res) => {
+    try {
+      const result = await jobseeker.aggregate([
+        {
+          $group: {
+            _id: { tahun: "$tahun", nama_kabupaten_kota: "$nama_kabupaten_kota" },
+            rataRataPencariKerja: { $avg: "$jumlah_pencari_kerja" }
+          }
+        },
+        {
+          $group: {
+            _id: "$_id.tahun",
+            rataRataTahun: { $avg: "$rataRataPencariKerja" }
+          }
+        },
+        { $sort: { _id: 1 } }
+      ]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error("Error fetching rata-rata pencari kerja per tahun:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  // 3. Kabupaten/Kota dengan Jumlah Pencari Kerja Terbanyak dan Terkecil per Tahun
+  const getTertinggiTerendahPencariKerjaPerTahun = async (req, res) => {
+    try {
+      const result = await jobseeker.aggregate([
+        {
+          $group: {
+            _id: "$tahun",
+            tertinggi: { $max: "$jumlah_pencari_kerja" },
+            terendah: { $min: "$jumlah_pencari_kerja" },
+            tertinggiData: {
+              $push: {
+                $cond: [
+                  { $eq: ["$jumlah_pencari_kerja", { $max: "$jumlah_pencari_kerja" }] },
+                  { nama_kabupaten_kota: "$nama_kabupaten_kota", jumlah: "$jumlah_pencari_kerja" },
+                  null
+                ]
+              }
+            },
+            terendahData: {
+              $push: {
+                $cond: [
+                  { $eq: ["$jumlah_pencari_kerja", { $min: "$jumlah_pencari_kerja" }] },
+                  { nama_kabupaten_kota: "$nama_kabupaten_kota", jumlah: "$jumlah_pencari_kerja" },
+                  null
+                ]
+              }
+            }
+          }
+        },
+        {
+          $project: {
+            tertinggi: 1,
+            terendah: 1,
+            tertinggiData: { $arrayElemAt: ["$tertinggiData", 0] },
+            terendahData: { $arrayElemAt: ["$terendahData", 0] }
+          }
+        },
+        { $sort: { _id: 1 } }
+      ]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error("Error fetching tertinggi dan terendah pencari kerja per tahun:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+
 module.exports = {
     getAllJobSeeker,
     getJobSeekerById,
     createJobSeeker,
     updateJobSeeker,
     deleteJobSeeker,
+    getTotalPencariKerjaPerTahun,
+    getRataRataPencariKerjaPerTahun,
+    getTertinggiTerendahPencariKerjaPerTahun,
 };
