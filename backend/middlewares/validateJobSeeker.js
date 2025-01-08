@@ -20,9 +20,9 @@ const validateJobSeeker = (req, res, next) => {
     }
 
     // Pastikan besaran upah minimum valid (opsional)
-    if (isNaN(parseFloat(jumlah_pencari_kerja.replace(',', '')))) {
-        return res.status(400).json({ message: 'Besaran upah minimum tidak valid' });
-    }
+    // if (isNaN(parseFloat(jumlah_pencari_kerja.replace(',', '')))) {
+    //     return res.status(400).json({ message: 'Besaran upah minimum tidak valid' });
+    // }
 
     next(); // Lanjut ke controller
 };

@@ -1,5 +1,5 @@
 <script>
-import Navbar from "../../components/Navbar.vue";
+import NavbarDashboard from "../../components/NavbarDashboard.vue";
 import Footer from "../../components/Footer.vue";
 import axios from 'axios';
 
@@ -44,14 +44,14 @@ export default {
     },
   },
   components: {
-    Navbar,
+    NavbarDashboard,
     Footer,
   },
 };
 </script>
 
 <template>
-  <Navbar />
+  <NavbarDashboard />
   <div v-if="isLoading" class="text-center p-8">Memuat detail produk...</div>
   <div v-else-if="error" class="text-center p-8 text-red-500">{{ error }}</div>
   <div v-else>

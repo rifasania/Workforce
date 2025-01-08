@@ -1,5 +1,5 @@
 <script>
-import Navbar from "../../components/Navbar.vue";
+import NavbarDashboard from "../../components/NavbarDashboard.vue";
 import Footer from "../../components/Footer.vue";
 import axios from "axios";
 
@@ -50,7 +50,7 @@ export default {
     },
   },
   components: {
-    Navbar,
+    NavbarDashboard,
     Footer,
   },
 };
@@ -58,7 +58,7 @@ export default {
 
 <template>
   <div>
-    <Navbar />
+    <NavbarDashboard />
     <section class="bg-white dark:bg-gray-900">
       <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
         <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Tambah Data Jumlah Pencari Kerja Terdaftar</h2>
@@ -122,12 +122,12 @@ export default {
 
             <div class="sm:col-span-2">
               <label for="jumlah_pencari_kerja" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Jumlah Pencar Kerja Terdaftar
+                Jumlah Pencari Kerja Terdaftar
               </label>
               <input
                 v-model="form.jumlah_pencari_kerja"
                 id="jumlah_pencari_kerja"
-                type="text"
+                type="number"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 required
               />
