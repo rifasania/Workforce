@@ -8,8 +8,7 @@ const pengangguranTerbukaSchema = new mongoose.Schema({
     tingkat_pengangguran_terbuka: { type: String, required: true },
     satuan: { type: String, required: true },
     tahun: { type: Number, required: true },
-}, {
-    timestamps: true, // Otomatis menambahkan createdAt dan updatedAt
+}, {    
     collection: 'pengangguran_terbuka'
 });
 
