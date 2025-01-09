@@ -154,32 +154,7 @@ const getDataGabungan = async (req, res) => {
           ],
           as: "jobSeekerData",
         },
-      },
-      {
-        $lookup: {
-          from: "pengangguran_terbuka",
-          let: { kode: "$kode_kabupaten_kota", tahun: "$tahun" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $and: [
-                    { $eq: ["$kode_kabupaten_kota", "$$kode"] },
-                    { $eq: ["$tahun", "$$tahun"] },
-                  ],
-                },
-              },
-            },
-          ],
-          as: "pengangguranTerbukaData",
-        },
-      },
-      // {
-      //   $unwind: {
-      //     path: "$pengangguranTerbukaData",
-      //     preserveNullAndEmptyArrays: true, // Membiarkan data kosong
-      //   },
-      // },
+      },      
       {
         $project: {
           _id: 0, // Tidak perlu ID MongoDB
@@ -187,18 +162,7 @@ const getDataGabungan = async (req, res) => {
           tahun: 1,
           upahMinimum: { $toString: "$besaran_upah_minimum" }, // Konversi upah minimum ke string
           lowonganKerja: { $arrayElemAt: ["$lowonganKerjaData.jumlah_lowongan_kerja", 0] },
-          jobSeeker: { $arrayElemAt: ["$jobSeekerData.jumlah_pencari_kerja", 0] },
-          pengangguranTerbuka: { 
-            $toString: {
-              $replaceAll: {
-                input: { 
-                  $arrayElemAt: ["$pengangguranTerbukaData.tingkat_pengangguran_terbuka", 0]
-                },
-                find: ",",
-                replacement: "."
-              }
-            }
-          },    
+          jobSeeker: { $arrayElemAt: ["$jobSeekerData.jumlah_pencari_kerja", 0] },          
         },
       },      
     ]);
