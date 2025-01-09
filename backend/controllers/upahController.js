@@ -113,8 +113,102 @@ const getAggregatedData = async (req, res) => {
     }
 };
 
+// JOIN
+const getDataGabungan = async (req, res) => {
+  try {
+    const data = await UpahMinimum.aggregate([
+      {
+        $lookup: {
+          from: "jum_loker",
+          let: { kode: "$kode_kabupaten_kota", tahun: "$tahun" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$kode_kabupaten_kota", "$$kode"] },
+                    { $eq: ["$tahun", "$$tahun"] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: "lowonganKerjaData",
+        },
+      },
+      {
+        $lookup: {
+          from: "job_seeker",
+          let: { kode: "$kode_kabupaten_kota", tahun: "$tahun" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$kode_kabupaten_kota", "$$kode"] },
+                    { $eq: ["$tahun", "$$tahun"] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: "jobSeekerData",
+        },
+      },
+      {
+        $lookup: {
+          from: "pengangguran_terbuka",
+          let: { kode: "$kode_kabupaten_kota", tahun: "$tahun" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$kode_kabupaten_kota", "$$kode"] },
+                    { $eq: ["$tahun", "$$tahun"] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: "pengangguranTerbukaData",
+        },
+      },
+      // {
+      //   $unwind: {
+      //     path: "$pengangguranTerbukaData",
+      //     preserveNullAndEmptyArrays: true, // Membiarkan data kosong
+      //   },
+      // },
+      {
+        $project: {
+          _id: 0, // Tidak perlu ID MongoDB
+          nama_kabupaten_kota: 1,
+          tahun: 1,
+          upahMinimum: { $toString: "$besaran_upah_minimum" }, // Konversi upah minimum ke string
+          lowonganKerja: { $arrayElemAt: ["$lowonganKerjaData.jumlah_lowongan_kerja", 0] },
+          jobSeeker: { $arrayElemAt: ["$jobSeekerData.jumlah_pencari_kerja", 0] },
+          pengangguranTerbuka: { 
+            $toString: {
+              $replaceAll: {
+                input: { 
+                  $arrayElemAt: ["$pengangguranTerbukaData.tingkat_pengangguran_terbuka", 0]
+                },
+                find: ",",
+                replacement: "."
+              }
+            }
+          },    
+        },
+      },      
+    ]);
 
-
+    res.status(200).json(data);
+  } catch (error) {
+    console.error("Error fetching combined data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 module.exports = {
     getAllUpah,
@@ -123,4 +217,5 @@ module.exports = {
     updateUpah,
     deleteUpah,
     getAggregatedData,
+    getDataGabungan,
 };

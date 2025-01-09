@@ -21,6 +21,7 @@ import ChartJobSeeker from "../pages/dashboard/Chart-JobSeeker.vue";
 import ChartUpah from "../pages/dashboard/Chart-Upah.vue";
 import ChartLoker from "../pages/dashboard/Chart-Loker.vue";
 import ChartPengangguran from "../pages/dashboard/Chart-Pengangguran.vue";
+import DataGabungan from "../pages/gabungan/Gabungan.vue";
 
 const routes = [
   {
@@ -132,6 +133,11 @@ const routes = [
     path: "/stats-pengangguran",
     name: "StatsPengangguran",
     component: StatsPengangguran,
+  },
+  {
+    path: "/data-gabungan",
+    name: "DataGabungan",
+    component: DataGabungan,
   },
 ];
 
